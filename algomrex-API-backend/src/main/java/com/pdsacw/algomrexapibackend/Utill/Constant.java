@@ -5,5 +5,4 @@ public class Constant {
     public static final String FAILURE = "Failure";
     public static final String CONFLICT = "Exist";
     public static final String ERROR = "Error";
-
 }
