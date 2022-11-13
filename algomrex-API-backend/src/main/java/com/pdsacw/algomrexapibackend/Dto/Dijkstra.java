@@ -22,7 +22,11 @@
  * SOFTWARE.
  */
 
-package org.example;
+package com.pdsacw.algomrexapibackend.Dto;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,16 +59,25 @@ public class Dijkstra<T> {
         }
     }
 
-    public void printPaths(List<Node<T>> nodes) {
+    public ArrayList<Path> printPaths(List<Node<String>> nodes) {
+        ArrayList<Path> Data = new ArrayList<Path>();
         nodes.forEach(node -> {
             String path = node.getShortestPath().stream()
                     .map(Node::getName).map(Objects::toString)
-                    .collect(Collectors.joining(" -> "));
+                    .collect(Collectors.joining("-"));
             System.out.println((path.isBlank()
                     ? "%s : %s".formatted(node.getName(), node.getDistance())
-                    : "%s -> %s : %s".formatted(path, node.getName(), node.getDistance()))
+                    : "%s-%s : %s".formatted(path, node.getName(), node.getDistance()))
             );
+
+            if(path.isBlank()){
+                Data.add(new Path(node.getName().toString(), node.getDistance().toString(), ""));
+            }else {
+                Data.add(new Path(node.getName().toString(), node.getDistance().toString(), path + "-"+node.getName()));
+            }
         });
+
+        return Data;
     }
 
 }

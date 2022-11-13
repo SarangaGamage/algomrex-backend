@@ -2,15 +2,15 @@ package com.pdsacw.algomrexapibackend.Dto;
 
 import java.util.ArrayList;
 
-public class NewMeasurePackageDto {
+public class NewUserAnswerDto {
 
     private ArrayList<UserAnswerShortestPath> answerList;
 
-    public NewMeasurePackageDto(ArrayList<UserAnswerShortestPath> answerList) {
+    public NewUserAnswerDto(ArrayList<UserAnswerShortestPath> answerList) {
         this.answerList = answerList;
     }
 
-    public NewMeasurePackageDto() {
+    public NewUserAnswerDto() {
     }
 
     public ArrayList<UserAnswerShortestPath> getAnswerList() {
@@ -25,7 +25,7 @@ public class NewMeasurePackageDto {
 
     @Override
     public String toString() {
-        return "NewMeasurePackageDto{" +
+        return "NewUserAnswerDto{" +
                 "measureList=" + answerList +
                 '}';
     }

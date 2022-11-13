@@ -1,51 +1,36 @@
 package com.pdsacw.algomrexapibackend.Dto;
 
-import org.w3c.dom.Node;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class nodeDto {
 
-    private String name;
+@Getter
+@Setter
+@RequiredArgsConstructor
+public class Node<T> implements Comparable<Node<T>>  {
 
-    private List<Node> shortestPath = new LinkedList<>();
 
+    private final T name;
     private Integer distance = Integer.MAX_VALUE;
+    private List<Node<T>> shortestPath = new LinkedList<>();
+    private Map<Node<T>, Integer> adjacentNodes = new HashMap<>();
 
-    Map<Node, Integer> adjacentNodes = new HashMap<>();
 
-    public void addDestination(Node destination, int distance) {
-        adjacentNodes.put(destination, distance);
+
+    public void addAdjacentNode(Node<T> node, int weight) {
+        adjacentNodes.put(node, weight);
     }
 
-    public nodeDto(String name) {
-        this.name = name;
+    public void addAdjacentNode(Node<T> node, int weight, Node<T> destination) {
+        adjacentNodes.put(node, weight);
+        node.adjacentNodes.put(destination, weight);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Node> getShortestPath() {
-        return shortestPath;
-    }
-
-    public void setShortestPath(List<Node> shortestPath) {
-        this.shortestPath = shortestPath;
-    }
-
-    public Integer getDistance() {
-        return distance;
-    }
-
-    public void setDistance(Integer distance) {
-        this.distance = distance;
+    @Override
+    public int compareTo(Node node) {
+        return Integer.compare(this.distance, node.getDistance());
     }
 }

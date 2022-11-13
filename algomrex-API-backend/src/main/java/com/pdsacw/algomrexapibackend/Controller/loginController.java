@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 
 @RestController
-@RequestMapping(value = "/algomrex")
+@RequestMapping(value = "/Algomrex")
 @CrossOrigin(origins = "*")
 public class loginController {
 
