@@ -7,10 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserAnswer {
-
+    private String labelId;
     private String distance;
     private String path;
     private String from;
     private String to;
-    private boolean status;
+    private int status;
+    private String result;
 }
