@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CommomUserAnswer {
+public class CommonUserAnswer {
 
     private List<UserAnswer> answerList;
 }

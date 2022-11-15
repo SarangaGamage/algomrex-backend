@@ -71,9 +71,9 @@ public class Dijkstra<T> {
             );
 
             if(path.isBlank()){
-                Data.add(new Path(node.getName().toString(), node.getDistance().toString(), ""));
+                Data.add(new Path(node.getName(), node.getDistance().toString(), node.getName()));
             }else {
-                Data.add(new Path(node.getName().toString(), node.getDistance().toString(), path + "-"+node.getName()));
+                Data.add(new Path(node.getName(), node.getDistance().toString(), path + "-"+node.getName()));
             }
         });
 

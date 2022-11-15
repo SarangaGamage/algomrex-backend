@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class GlobalVariables {
 
-    public ArrayList<DistanceTable> createdTable = new ArrayList<>();
+    public ArrayList<DistanceTable> createdTable;
+    public Node createdNodes;
 
     private GlobalVariables() {
         createdTable = new ArrayList<DistanceTable>();
