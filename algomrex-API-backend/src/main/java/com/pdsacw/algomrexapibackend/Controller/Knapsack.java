@@ -18,8 +18,8 @@ public class Knapsack {
     KnapsackService knapsackService;
 
     @PostMapping(value = "/userAnswers2")
-    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer) throws UnsupportedEncodingException {
-        return knapsackService.checkUserAnswer(commonUserAnswer);
+    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer, @RequestHeader int userId) throws UnsupportedEncodingException {
+        return knapsackService.checkUserAnswer(commonUserAnswer, userId);
     }
 
     @GetMapping(value = "/getTableData2")

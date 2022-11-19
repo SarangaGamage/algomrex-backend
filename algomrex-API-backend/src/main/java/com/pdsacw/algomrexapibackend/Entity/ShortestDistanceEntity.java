@@ -15,27 +15,29 @@ public class ShortestDistanceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Integer id;
 
+    @Column(name = "game_id")
+    private String gameId;
     @Column(name = "city_a")
-    private String cityA;
+    private Integer cityA;
     @Column(name = "city_b")
-    private String cityB;
+    private Integer cityB;
     @Column(name = "city_c")
-    private String cityC;
+    private Integer cityC;
     @Column(name = "city_d")
-    private String cityD;
+    private Integer cityD;
     @Column(name = "city_e")
-    private String cityE;
+    private Integer cityE;
     @Column(name = "city_f")
-    private String cityF;
+    private Integer cityF;
     @Column(name = "city_g")
-    private String cityG;
+    private Integer cityG;
     @Column(name = "city_h")
-    private String cityH;
+    private Integer cityH;
     @Column(name = "city_i")
-    private String cityI;
+    private Integer cityI;
     @Column(name = "city_j")
-    private String cityJ;
+    private Integer cityJ;
 }
