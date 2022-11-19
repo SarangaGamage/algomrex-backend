@@ -15,10 +15,10 @@ import java.io.UnsupportedEncodingException;
 public class Login {
 
     @Autowired
-    LoginService login;
+    LoginService loginService;
 
     @PostMapping(value = "/userLogin")
     HttpEntity<Object> userLogin(@RequestBody User user) throws UnsupportedEncodingException {
-        return login.userLogin(user);
+        return loginService.userLogin(user);
     }
 }
