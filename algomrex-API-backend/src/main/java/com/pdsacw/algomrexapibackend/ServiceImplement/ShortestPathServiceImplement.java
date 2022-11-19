@@ -76,6 +76,7 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                 ArrayList<Path> pathList = dijkstra.printPaths(nodes);
 
                 int index = 0;
+                boolean allAnswerCorrect = true;
                 List<AnswerResult> checkedResults = new ArrayList<>();
                 for (ShortestPathUserAnswer givenShortestPathUserAnswer : commonUserAnswer.getAnswerList()) {
                     if (Objects.equals(pathList.get(index).getPath().replaceAll("City", ""), givenShortestPathUserAnswer.getPath())) {
@@ -83,15 +84,22 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                             checkedResults.add(new AnswerResult(givenShortestPathUserAnswer.getLabelId(), 1, "Both distance and path are correct!!"));
                         } else {
                             checkedResults.add(new AnswerResult(givenShortestPathUserAnswer.getLabelId(), 2, "Only path is correct distance is wrong!!"));
+                            allAnswerCorrect = false;
                         }
                     } else {
                         if (Objects.equals(pathList.get(index).getDistance(), givenShortestPathUserAnswer.getDistance())) {
                             checkedResults.add(new AnswerResult(givenShortestPathUserAnswer.getLabelId(), 2, "Only distance is correct and path is wrong!!"));
+                            allAnswerCorrect = false;
                         } else {
                             checkedResults.add(new AnswerResult(givenShortestPathUserAnswer.getLabelId(), 0, "Both distance and path are wrong!!"));
+                            allAnswerCorrect = false;
                         }
                     }
                     index++;
+                }
+
+                if(allAnswerCorrect){
+                    setDistanceBetweenCitiesForCorrectAnswers(GlobalVariables.getGlobalVariable(false).createdTable, headers);
                 }
 
                 return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, checkedResults, Constant.SUCCESS);
