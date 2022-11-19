@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserAnswer {
+public class ShortestPathUserAnswer {
     private String labelId;
     private String distance;
     private String path;

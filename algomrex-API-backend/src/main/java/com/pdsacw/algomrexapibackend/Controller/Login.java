@@ -1,8 +1,8 @@
 package com.pdsacw.algomrexapibackend.Controller;
 
 
-import com.pdsacw.algomrexapibackend.Dto.userDto;
-import com.pdsacw.algomrexapibackend.Service.loginService;
+import com.pdsacw.algomrexapibackend.Dto.User;
+import com.pdsacw.algomrexapibackend.Service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +12,13 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping(value = "/Algomrex")
 @CrossOrigin(origins = "*")
-public class loginController {
+public class Login {
 
     @Autowired
-    loginService login;
+    LoginService login;
 
     @PostMapping(value = "/userLogin")
-    HttpEntity<Object> userLogin(@RequestBody userDto user) throws UnsupportedEncodingException {
+    HttpEntity<Object> userLogin(@RequestBody User user) throws UnsupportedEncodingException {
         return login.userLogin(user);
     }
 }

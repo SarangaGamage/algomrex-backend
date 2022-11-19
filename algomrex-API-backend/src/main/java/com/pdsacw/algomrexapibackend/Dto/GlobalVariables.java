@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class GlobalVariables {
 
     public ArrayList<DistanceTable> createdTable;
-    public Node createdNodes;
 
     private GlobalVariables() {
         createdTable = new ArrayList<DistanceTable>();
@@ -13,7 +12,7 @@ public class GlobalVariables {
 
     private static GlobalVariables instance;
 
-    public static GlobalVariables getInstance(Boolean reset) {
+    public static GlobalVariables getGlobalVariable(Boolean reset) {
         if(reset){
             instance = null;
         }

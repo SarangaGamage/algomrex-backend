@@ -19,4 +19,8 @@ public class AnswerResult {
         this.status = status;
         this.result = result;
     }
+
+    public AnswerResult() {
+
+    }
 }
