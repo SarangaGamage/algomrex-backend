@@ -8,6 +8,8 @@ import java.util.List;
 @Getter
 @Setter
 public class CommonUserAnswer {
-
-    private List<UserAnswer> answerList;
+    private String questionId;
+    private List<ShortestPathUserAnswer> answerList;
+    private MinimumConnectorsUserAnswer minimumConnectorsUserAnswer;
+    private KnapsackUserAnswer knapsackUserAnswer;
 }

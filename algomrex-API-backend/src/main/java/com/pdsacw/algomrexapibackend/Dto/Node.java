@@ -10,21 +10,19 @@ import java.util.*;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Node<T> implements Comparable<Node<T>>  {
+public class Node implements Comparable<Node>  {
 
 
-    private final T name;
+    private String name;
     private Integer distance = Integer.MAX_VALUE;
-    private List<Node<T>> shortestPath = new LinkedList<>();
-    private Map<Node<T>, Integer> adjacentNodes = new HashMap<>();
+    private List<Node> shortestPath = new LinkedList<>();
+    public Map<Node, Integer> adjacentNodes = new HashMap<>();
 
-
-
-    public void addAdjacentNode(Node<T> node, int weight) {
+    public void addAdjacentNode(Node node, int weight) {
         adjacentNodes.put(node, weight);
     }
 
-    public void addAdjacentNode(Node<T> node, int weight, Node<T> destination) {
+    public void addAdjacentNode(Node node, int weight, Node destination) {
         adjacentNodes.put(node, weight);
         node.adjacentNodes.put(destination, weight);
     }
@@ -33,4 +31,10 @@ public class Node<T> implements Comparable<Node<T>>  {
     public int compareTo(Node node) {
         return Integer.compare(this.distance, node.getDistance());
     }
+
+    public Node(String name) {
+        this.name = name;
+    }
+
+
 }

@@ -12,14 +12,14 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping(value = "/Algomrex")
 @CrossOrigin(origins = "*")
-public class shortestPath {
+public class ShortestPath {
 
     @Autowired
     ShortestPathService shortPath;
 
     @PostMapping(value = "/userAnswers")
-    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer answerList) throws UnsupportedEncodingException {
-        return shortPath.checkUserAnswer(answerList);
+    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer) throws UnsupportedEncodingException {
+        return shortPath.checkUserAnswer(commonUserAnswer);
     }
 
     @GetMapping(value = "/getTableData")
@@ -27,3 +27,5 @@ public class shortestPath {
         return shortPath.getTableData();
     }
 }
+
+

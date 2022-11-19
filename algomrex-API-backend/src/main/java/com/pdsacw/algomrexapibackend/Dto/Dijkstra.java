@@ -1,45 +1,17 @@
-/*
- * MIT License
- *
- * Copyright (c) 2022 Geekific (https://www.youtube.com/c/Geekific)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice, Geekific's channel link and this permission notice
- * shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.pdsacw.algomrexapibackend.Dto;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Dijkstra<T> {
+public class Dijkstra {
 
-    public void calculateShortestPath(Node<T> source) {
+    public void calculateShortestPath(Node source) {
         source.setDistance(0);
-        Set<Node<T>> settledNodes = new HashSet<>();
-        Queue<Node<T>> unsettledNodes = new PriorityQueue<>(Collections.singleton(source));
+        Set<Node> settledNodes = new HashSet<>();
+        Queue<Node> unsettledNodes = new PriorityQueue<>(Collections.singleton(source));
         while (!unsettledNodes.isEmpty()) {
-            Node<T> currentNode = unsettledNodes.poll();
+            Node currentNode = unsettledNodes.poll();
             currentNode.getAdjacentNodes()
                     .entrySet().stream()
                     .filter(entry -> !settledNodes.contains(entry.getKey()))
@@ -51,7 +23,7 @@ public class Dijkstra<T> {
         }
     }
 
-    private void evaluateDistanceAndPath(Node<T> adjacentNode, Integer edgeWeight, Node<T> sourceNode) {
+    private void evaluateDistanceAndPath(Node adjacentNode, Integer edgeWeight, Node sourceNode) {
         Integer newDistance = sourceNode.getDistance() + edgeWeight;
         if (newDistance < adjacentNode.getDistance()) {
             adjacentNode.setDistance(newDistance);
@@ -59,7 +31,7 @@ public class Dijkstra<T> {
         }
     }
 
-    public ArrayList<Path> printPaths(List<Node<String>> nodes) {
+    public ArrayList<Path> printPaths(List<Node> nodes) {
         ArrayList<Path> Data = new ArrayList<Path>();
         nodes.forEach(node -> {
             String path = node.getShortestPath().stream()
