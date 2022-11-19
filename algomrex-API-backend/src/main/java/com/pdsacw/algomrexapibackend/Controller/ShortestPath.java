@@ -19,7 +19,7 @@ public class ShortestPath {
     ShortestPathService shortPath;
 
     @PostMapping(value = "/userAnswers")
-    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer, HttpHeaders headers) throws UnsupportedEncodingException {
+    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer,@RequestHeader HttpHeaders headers) throws UnsupportedEncodingException {
         return shortPath.checkUserAnswer(commonUserAnswer, headers);
     }
 
