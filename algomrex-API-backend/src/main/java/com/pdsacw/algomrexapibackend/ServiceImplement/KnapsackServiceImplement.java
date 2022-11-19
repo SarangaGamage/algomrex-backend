@@ -3,9 +3,15 @@ package com.pdsacw.algomrexapibackend.ServiceImplement;
 import com.pdsacw.algomrexapibackend.Dto.AnswerResult;
 import com.pdsacw.algomrexapibackend.Dto.CommonUserAnswer;
 import com.pdsacw.algomrexapibackend.Dto.KnapsackTable;
+import com.pdsacw.algomrexapibackend.Entity.KnapsackEntity;
+import com.pdsacw.algomrexapibackend.Entity.WinnerEntity;
+import com.pdsacw.algomrexapibackend.Repository.KnapsackRepository;
+import com.pdsacw.algomrexapibackend.Repository.WinnerRepository;
 import com.pdsacw.algomrexapibackend.Service.KnapsackService;
+import com.pdsacw.algomrexapibackend.Utill.Common;
 import com.pdsacw.algomrexapibackend.Utill.Constant;
 import com.pdsacw.algomrexapibackend.Utill.ResponseHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +23,11 @@ import java.util.Random;
 public class KnapsackServiceImplement implements KnapsackService {
     int[] itemWeightsArray = new int[10];
     int[] itemProfitsArray = new int[10];
+
+    @Autowired
+    WinnerRepository winnerRepository;
+    @Autowired
+    KnapsackRepository knapsackRepository;
 
     public int calculateMaximumProfit(int[] profits, int[] weights, int capacity) {
         if (capacity <= 0 || profits.length == 0 || weights.length != profits.length)
@@ -61,13 +72,19 @@ public class KnapsackServiceImplement implements KnapsackService {
 
 
     @Override
-    public ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer) {
+    public ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer , int userId) {
         int maxProfit = calculateMaximumProfit(itemProfitsArray, itemWeightsArray, 10);
         System.out.println(maxProfit);
         AnswerResult answerResult = new AnswerResult();
         if (commonUserAnswer.getKnapsackUserAnswer().getTotalProfit() == maxProfit) {
             answerResult.setStatus(1);
             answerResult.setResult("Correct choices");
+            winnerRepository.save(Common.saveWinnerUserDetails(userId, "Knap", 0));
+            KnapsackEntity knapsackEntity = new KnapsackEntity();
+            knapsackEntity.setUserId(userId);
+            knapsackEntity.setGameId(Common.generateGameId("Knap"));
+            knapsackEntity.setMaximumProfit(maxProfit);
+            knapsackRepository.save(knapsackEntity);
         } else {
             answerResult.setStatus(0);
             answerResult.setResult("Wrong choices");

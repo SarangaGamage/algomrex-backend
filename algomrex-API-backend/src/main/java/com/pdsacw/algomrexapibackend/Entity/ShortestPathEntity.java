@@ -15,9 +15,11 @@ public class ShortestPathEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Integer id;
 
+    @Column(name = "game_id")
+    private String gameId;
     @Column(name = "city_a")
     private String cityA;
     @Column(name = "city_b")
@@ -38,4 +40,5 @@ public class ShortestPathEntity {
     private String cityI;
     @Column(name = "city_j")
     private String cityJ;
+
 }

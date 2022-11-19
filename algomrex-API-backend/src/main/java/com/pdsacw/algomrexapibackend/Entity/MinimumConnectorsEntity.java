@@ -11,12 +11,15 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="shortest_distance")
+@Table(name="minimum_connectors")
 public class MinimumConnectorsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "game_id")
+    private String gameId;
 
     @Column(name = "link_1")
     private String link1;

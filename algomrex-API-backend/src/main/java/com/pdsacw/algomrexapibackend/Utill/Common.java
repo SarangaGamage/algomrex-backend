@@ -11,7 +11,7 @@ import java.util.Random;
 public class Common {
 
 
-    public static void saveWinnerUserDetails(int userId, String gameCode,int gameType){
+    public static WinnerEntity saveWinnerUserDetails(int userId, String gameId, int gameType){
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -21,11 +21,11 @@ public class Common {
 
         WinnerEntity winnerEntity = new WinnerEntity();
         winnerEntity.setUserId(userId);
-        winnerEntity.setGameId(generateGameId(gameCode));
+        winnerEntity.setGameId(gameId);
         winnerEntity.setGameType(gameType);
         winnerEntity.setDateTime(dtf.format(now));
 
-        winnerRepository.save(winnerEntity);
+       return winnerEntity;
 
     }
 

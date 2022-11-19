@@ -15,9 +15,11 @@ public class ShortestDistanceBetweenCitiesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Integer id;
 
+    @Column(name = "game_id")
+    private String gameId;
 
     @Column(name = "a_b")
     private String ab;
