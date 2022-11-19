@@ -6,10 +6,10 @@ import com.pdsacw.algomrexapibackend.Entity.ShortestDistanceBetweenCitiesEntity;
 import com.pdsacw.algomrexapibackend.Repository.ShortestDistanceBetweenCities;
 import com.pdsacw.algomrexapibackend.Service.ShortestPathService;
 
+import com.pdsacw.algomrexapibackend.Utill.Common;
 import com.pdsacw.algomrexapibackend.Utill.Constant;
-import com.pdsacw.algomrexapibackend.Utill.responseHandler;
+import com.pdsacw.algomrexapibackend.Utill.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class ShortestPathServiceImplement implements ShortestPathService {
     @Autowired
     ShortestDistanceBetweenCities shortestDistanceBetweenCities;
     @Override
-    public ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer, HttpHeaders headers) {
+    public ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer, int userId) {
 
         try {
             Node startingNode = null;
@@ -99,10 +99,11 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                 }
 
                 if(allAnswerCorrect){
-                    setDistanceBetweenCitiesForCorrectAnswers(GlobalVariables.getGlobalVariable(false).createdTable, headers);
+                    setDistanceBetweenCitiesForCorrectAnswers(GlobalVariables.getGlobalVariable(false).createdTable, userId);
+                    Common.saveWinnerUserDetails(userId,"Short-Path",1);
                 }
 
-                return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, checkedResults, Constant.SUCCESS);
+                return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, checkedResults, Constant.SUCCESS);
 
             } else if (Objects.equals(commonUserAnswer.getQuestionId(), "2")) {
                 AnswerResult checkedResults;
@@ -126,7 +127,8 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                 if (totalDistanceOfMinimumConnectors == Integer.parseInt(commonUserAnswer.getMinimumConnectorsUserAnswer().getTotalDistance())) {
                     if (pathOfMinimumConnectors.toString().equals(commonUserAnswer.getMinimumConnectorsUserAnswer().getPath().replaceAll("[\\-\\+\\.\\^:,]", ""))) {
                         checkedResults = new AnswerResult("", 1, "Both distance and path are correct!!");
-                        setDistanceBetweenCitiesForCorrectAnswers(GlobalVariables.getGlobalVariable(false).createdTable, headers);
+                        setDistanceBetweenCitiesForCorrectAnswers(GlobalVariables.getGlobalVariable(false).createdTable, userId);
+                        Common.saveWinnerUserDetails(userId,"Mini-Con",2);
                     } else {
                         checkedResults = new AnswerResult("", 2, "Only distance is correct!!");
                     }
@@ -137,12 +139,12 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                         checkedResults = new AnswerResult("", 0, "Both distance and path are wrong!!");
                     }
                 }
-                return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, checkedResults, Constant.SUCCESS);
+                return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, checkedResults, Constant.SUCCESS);
             }
         } catch (Exception ex) {
-            return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, null, Constant.SUCCESS);
+            return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, null, Constant.SUCCESS);
         }
-        return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, null, Constant.SUCCESS);
+        return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, null, Constant.SUCCESS);
     }
 
     public int getRandomDistance() {
@@ -166,17 +168,17 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                 }
                 usedHeaders.add(rowHeader);
             }
-            return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, distanceTable.createdTable, Constant.SUCCESS);
+            return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, distanceTable.createdTable, Constant.SUCCESS);
         } catch (Exception ex) {
-            return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, null, Constant.SUCCESS);
+            return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, null, Constant.SUCCESS);
         }
     }
 
-    public void setDistanceBetweenCitiesForCorrectAnswers(ArrayList<DistanceTable> tableData, HttpHeaders headers){
+    public void setDistanceBetweenCitiesForCorrectAnswers(ArrayList<DistanceTable> tableData, int userId){
 
         ShortestDistanceBetweenCitiesEntity shortestDistanceBetweenCitiesEntity = new ShortestDistanceBetweenCitiesEntity();
 
-        shortestDistanceBetweenCitiesEntity.setId(12);
+        shortestDistanceBetweenCitiesEntity.setId(userId);
 
         shortestDistanceBetweenCitiesEntity.setAb(String.valueOf(tableData.get(0).getWeight()));
         shortestDistanceBetweenCitiesEntity.setAc(String.valueOf(tableData.get(1).getWeight()));
@@ -239,6 +241,10 @@ public class ShortestPathServiceImplement implements ShortestPathService {
         shortestDistanceBetweenCitiesEntity.setIj(String.valueOf(tableData.get(44).getWeight()));
 
         shortestDistanceBetweenCities.save(shortestDistanceBetweenCitiesEntity);
+    }
+
+    public void saveUserDetails(){
+
     }
 }
     

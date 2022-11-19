@@ -8,6 +8,6 @@ import java.io.UnsupportedEncodingException;
 
 public interface ShortestPathService {
 
-    ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer, HttpHeaders headers) throws UnsupportedEncodingException;
+    ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer, int userId) throws UnsupportedEncodingException;
     ResponseEntity<Object> getTableData() throws UnsupportedEncodingException;
 }

@@ -5,7 +5,7 @@ import com.pdsacw.algomrexapibackend.Dto.CommonUserAnswer;
 import com.pdsacw.algomrexapibackend.Dto.KnapsackTable;
 import com.pdsacw.algomrexapibackend.Service.KnapsackService;
 import com.pdsacw.algomrexapibackend.Utill.Constant;
-import com.pdsacw.algomrexapibackend.Utill.responseHandler;
+import com.pdsacw.algomrexapibackend.Utill.ResponseHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class KnapsackServiceImplement implements KnapsackService {
         }
         int maxProfit = calculateMaximumProfit(itemProfitsArray, itemWeightsArray, 10);
         System.out.println(maxProfit);
-        return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, knapsackDataTable, Constant.SUCCESS);
+        return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, knapsackDataTable, Constant.SUCCESS);
     }
 
 
@@ -72,6 +72,6 @@ public class KnapsackServiceImplement implements KnapsackService {
             answerResult.setStatus(0);
             answerResult.setResult("Wrong choices");
         }
-        return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, answerResult, Constant.SUCCESS);
+        return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, answerResult, Constant.SUCCESS);
     }
 }
