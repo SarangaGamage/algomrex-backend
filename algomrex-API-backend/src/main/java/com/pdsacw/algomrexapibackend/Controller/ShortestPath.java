@@ -5,6 +5,7 @@ import com.pdsacw.algomrexapibackend.Dto.CommonUserAnswer;
 import com.pdsacw.algomrexapibackend.Service.ShortestPathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -18,8 +19,8 @@ public class ShortestPath {
     ShortestPathService shortPath;
 
     @PostMapping(value = "/userAnswers")
-    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer) throws UnsupportedEncodingException {
-        return shortPath.checkUserAnswer(commonUserAnswer);
+    HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer, HttpHeaders headers) throws UnsupportedEncodingException {
+        return shortPath.checkUserAnswer(commonUserAnswer, headers);
     }
 
     @GetMapping(value = "/getTableData")

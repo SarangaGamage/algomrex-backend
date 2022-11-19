@@ -2,10 +2,14 @@ package com.pdsacw.algomrexapibackend.ServiceImplement;
 
 import com.pdsacw.algomrexapibackend.Dto.*;
 
+import com.pdsacw.algomrexapibackend.Entity.ShortestDistanceBetweenCitiesEntity;
+import com.pdsacw.algomrexapibackend.Repository.ShortestDistanceBetweenCities;
 import com.pdsacw.algomrexapibackend.Service.ShortestPathService;
 
 import com.pdsacw.algomrexapibackend.Utill.Constant;
 import com.pdsacw.algomrexapibackend.Utill.responseHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,10 +17,12 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ShortestPathServiceImplement<T> implements ShortestPathService {
+public class ShortestPathServiceImplement implements ShortestPathService {
 
+    @Autowired
+    ShortestDistanceBetweenCities shortestDistanceBetweenCities;
     @Override
-    public ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer) {
+    public ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer, HttpHeaders headers) {
 
         try {
             Node startingNode = null;
@@ -112,6 +118,7 @@ public class ShortestPathServiceImplement<T> implements ShortestPathService {
                 if (totalDistanceOfMinimumConnectors == Integer.parseInt(commonUserAnswer.getMinimumConnectorsUserAnswer().getTotalDistance())) {
                     if (pathOfMinimumConnectors.toString().equals(commonUserAnswer.getMinimumConnectorsUserAnswer().getPath().replaceAll("[\\-\\+\\.\\^:,]", ""))) {
                         checkedResults = new AnswerResult("", 1, "Both distance and path are correct!!");
+                        setDistanceBetweenCitiesForCorrectAnswers(GlobalVariables.getGlobalVariable(false).createdTable, headers);
                     } else {
                         checkedResults = new AnswerResult("", 2, "Only distance is correct!!");
                     }
@@ -155,6 +162,75 @@ public class ShortestPathServiceImplement<T> implements ShortestPathService {
         } catch (Exception ex) {
             return responseHandler.generateResponse(HttpStatus.MULTI_STATUS, null, Constant.SUCCESS);
         }
+    }
+
+    public void setDistanceBetweenCitiesForCorrectAnswers(ArrayList<DistanceTable> tableData, HttpHeaders headers){
+
+        ShortestDistanceBetweenCitiesEntity shortestDistanceBetweenCitiesEntity = new ShortestDistanceBetweenCitiesEntity();
+
+        shortestDistanceBetweenCitiesEntity.setId(12);
+
+        shortestDistanceBetweenCitiesEntity.setAb(String.valueOf(tableData.get(0).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAc(String.valueOf(tableData.get(1).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAd(String.valueOf(tableData.get(2).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAe(String.valueOf(tableData.get(3).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAf(String.valueOf(tableData.get(4).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAg(String.valueOf(tableData.get(5).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAh(String.valueOf(tableData.get(6).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAi(String.valueOf(tableData.get(7).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setAj(String.valueOf(tableData.get(8).getWeight()));
+
+
+        shortestDistanceBetweenCitiesEntity.setBc(String.valueOf(tableData.get(9).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setBd(String.valueOf(tableData.get(10).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setBe(String.valueOf(tableData.get(11).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setBf(String.valueOf(tableData.get(12).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setBg(String.valueOf(tableData.get(13).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setBh(String.valueOf(tableData.get(14).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setBi(String.valueOf(tableData.get(15).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setBj(String.valueOf(tableData.get(16).getWeight()));
+
+
+        shortestDistanceBetweenCitiesEntity.setCd(String.valueOf(tableData.get(17).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setCe(String.valueOf(tableData.get(18).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setCf(String.valueOf(tableData.get(19).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setCg(String.valueOf(tableData.get(20).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setCh(String.valueOf(tableData.get(21).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setCi(String.valueOf(tableData.get(22).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setCj(String.valueOf(tableData.get(23).getWeight()));
+
+
+        shortestDistanceBetweenCitiesEntity.setDe(String.valueOf(tableData.get(24).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setDf(String.valueOf(tableData.get(25).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setDg(String.valueOf(tableData.get(26).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setGh(String.valueOf(tableData.get(27).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setDi(String.valueOf(tableData.get(28).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setDj(String.valueOf(tableData.get(29).getWeight()));
+
+
+        shortestDistanceBetweenCitiesEntity.setEf(String.valueOf(tableData.get(30).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setEg(String.valueOf(tableData.get(31).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setEh(String.valueOf(tableData.get(32).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setEi(String.valueOf(tableData.get(33).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setEj(String.valueOf(tableData.get(34).getWeight()));
+
+
+        shortestDistanceBetweenCitiesEntity.setFg(String.valueOf(tableData.get(35).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setFh(String.valueOf(tableData.get(36).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setFi(String.valueOf(tableData.get(37).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setFj(String.valueOf(tableData.get(38).getWeight()));
+
+        shortestDistanceBetweenCitiesEntity.setGh(String.valueOf(tableData.get(39).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setGi(String.valueOf(tableData.get(40).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setGj(String.valueOf(tableData.get(41).getWeight()));
+
+
+        shortestDistanceBetweenCitiesEntity.setHi(String.valueOf(tableData.get(42).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setHj(String.valueOf(tableData.get(43).getWeight()));
+
+        shortestDistanceBetweenCitiesEntity.setIj(String.valueOf(tableData.get(44).getWeight()));
+
+        shortestDistanceBetweenCities.save(shortestDistanceBetweenCitiesEntity);
     }
 }
     
