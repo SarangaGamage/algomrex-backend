@@ -2,7 +2,7 @@ package com.pdsacw.algomrexapibackend.ServiceImplement;
 
 import com.pdsacw.algomrexapibackend.Dto.User;
 import com.pdsacw.algomrexapibackend.Entity.UserEntity;
-import com.pdsacw.algomrexapibackend.Repository.Login;
+import com.pdsacw.algomrexapibackend.Repository.LoginRepository;
 import com.pdsacw.algomrexapibackend.Service.LoginService;
 import com.pdsacw.algomrexapibackend.Utill.Constant;
 import com.pdsacw.algomrexapibackend.Utill.responseHandler;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class LoginServiceImplement implements LoginService {
 
     @Autowired
-    Login loginRepository;
+    LoginRepository loginRepository;
     @Override
     public ResponseEntity<Object> userLogin(User user) {
 
