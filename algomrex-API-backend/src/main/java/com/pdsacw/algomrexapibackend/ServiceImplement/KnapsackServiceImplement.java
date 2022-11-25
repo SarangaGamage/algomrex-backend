@@ -4,7 +4,6 @@ import com.pdsacw.algomrexapibackend.Dto.AnswerResult;
 import com.pdsacw.algomrexapibackend.Dto.CommonUserAnswer;
 import com.pdsacw.algomrexapibackend.Dto.KnapsackTable;
 import com.pdsacw.algomrexapibackend.Entity.KnapsackEntity;
-import com.pdsacw.algomrexapibackend.Entity.WinnerEntity;
 import com.pdsacw.algomrexapibackend.Repository.KnapsackRepository;
 import com.pdsacw.algomrexapibackend.Repository.WinnerRepository;
 import com.pdsacw.algomrexapibackend.Service.KnapsackService;
@@ -78,7 +77,7 @@ public class KnapsackServiceImplement implements KnapsackService {
         AnswerResult answerResult = new AnswerResult();
         if (commonUserAnswer.getKnapsackUserAnswer().getTotalProfit() == maxProfit) {
             answerResult.setStatus(1);
-            answerResult.setResult("Correct choices");
+            answerResult.setResult("Great Correct choices!!");
             winnerRepository.save(Common.saveWinnerUserDetails(userId, "Knap", 0));
             KnapsackEntity knapsackEntity = new KnapsackEntity();
             knapsackEntity.setUserId(userId);
@@ -87,7 +86,7 @@ public class KnapsackServiceImplement implements KnapsackService {
             knapsackRepository.save(knapsackEntity);
         } else {
             answerResult.setStatus(0);
-            answerResult.setResult("Wrong choices");
+            answerResult.setResult("Sorry Wrong choices!!");
         }
         return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, answerResult, Constant.SUCCESS);
     }

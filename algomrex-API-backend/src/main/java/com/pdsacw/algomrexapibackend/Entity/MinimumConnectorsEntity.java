@@ -39,5 +39,7 @@ public class MinimumConnectorsEntity {
     private String link8;
     @Column(name = "link_9")
     private String link9;
+    @Column(name = "link_10")
+    private String link10;
 
 }

@@ -18,12 +18,12 @@ public class ShortestPath {
     @Autowired
     ShortestPathService shortPath;
 
-    @PostMapping(value = "/userAnswers")
+    @PostMapping(value = "/distanceGraph/userAnswers")
     HttpEntity<Object> checkUserAnswer(@RequestBody CommonUserAnswer commonUserAnswer,@RequestHeader int userId) throws UnsupportedEncodingException {
         return shortPath.checkUserAnswer(commonUserAnswer, userId);
     }
 
-    @GetMapping(value = "/getTableData")
+    @GetMapping(value = "shortestPath/getTableData")
     HttpEntity<Object> getTableData() throws UnsupportedEncodingException {
         return shortPath.getTableData();
     }

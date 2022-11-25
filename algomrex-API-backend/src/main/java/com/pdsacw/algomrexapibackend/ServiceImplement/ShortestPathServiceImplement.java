@@ -122,12 +122,13 @@ public class ShortestPathServiceImplement implements ShortestPathService {
             } else if (Objects.equals(commonUserAnswer.getQuestionId(), "2")) {
                 AnswerResult checkedResults;
                 int totalDistanceOfMinimumConnectors = 0;
-
+                Node startPoint = null;
                 StringBuilder pathOfMinimumConnectors = new StringBuilder();
                 Stack<Node> settleNodes = new Stack<>();
                 for (Node node : nodes) {
                     if(Objects.equals(node.getName(), commonUserAnswer.getMinimumConnectorsUserAnswer().getStartPoint().replaceAll("\\s+", ""))){
                         settleNodes.push(node);
+                        startPoint = node;
                         break;
                     }
                 }
@@ -150,7 +151,7 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                         checkedResults = new AnswerResult("", 1, "Both distance and path are correct!!");
                         saveDistanceBetweenCitiesForCorrectAnswers(GlobalVariables.getGlobalVariable(false).createdTable, gameId);
                         winnerRepository.save(Common.saveWinnerUserDetails(userId,gameId,2));
-                        saveMinimumConnectors(pathOfMinimumConnectors.toString());
+                        saveMinimumConnectors(pathOfMinimumConnectors.toString(), startPoint);
                     } else {
                         checkedResults = new AnswerResult("", 2, "Only distance is correct!!");
                     }
@@ -235,7 +236,7 @@ public class ShortestPathServiceImplement implements ShortestPathService {
         shortestDistanceBetweenCitiesEntity.setDe(String.valueOf(tableData.get(24).getWeight()));
         shortestDistanceBetweenCitiesEntity.setDf(String.valueOf(tableData.get(25).getWeight()));
         shortestDistanceBetweenCitiesEntity.setDg(String.valueOf(tableData.get(26).getWeight()));
-        shortestDistanceBetweenCitiesEntity.setGh(String.valueOf(tableData.get(27).getWeight()));
+        shortestDistanceBetweenCitiesEntity.setDh(String.valueOf(tableData.get(27).getWeight()));
         shortestDistanceBetweenCitiesEntity.setDi(String.valueOf(tableData.get(28).getWeight()));
         shortestDistanceBetweenCitiesEntity.setDj(String.valueOf(tableData.get(29).getWeight()));
 
@@ -272,32 +273,32 @@ public class ShortestPathServiceImplement implements ShortestPathService {
         shortestPathEntity.setGameId(gameId);
         shortestPathEntity.setCityA(pathList.get(0).getPath());
 
-        shortestPathEntity.setCityA(pathList.get(1).getPath());
-        shortestPathEntity.setCityA(pathList.get(2).getPath());
-        shortestPathEntity.setCityA(pathList.get(3).getPath());
-        shortestPathEntity.setCityA(pathList.get(4).getPath());
-        shortestPathEntity.setCityA(pathList.get(5).getPath());
-        shortestPathEntity.setCityA(pathList.get(6).getPath());
-        shortestPathEntity.setCityA(pathList.get(7).getPath());
-        shortestPathEntity.setCityA(pathList.get(8).getPath());
-        shortestPathEntity.setCityA(pathList.get(9).getPath());
+        shortestPathEntity.setCityB(pathList.get(1).getPath());
+        shortestPathEntity.setCityC(pathList.get(2).getPath());
+        shortestPathEntity.setCityD(pathList.get(3).getPath());
+        shortestPathEntity.setCityE(pathList.get(4).getPath());
+        shortestPathEntity.setCityF(pathList.get(5).getPath());
+        shortestPathEntity.setCityG(pathList.get(6).getPath());
+        shortestPathEntity.setCityH(pathList.get(7).getPath());
+        shortestPathEntity.setCityI(pathList.get(8).getPath());
+        shortestPathEntity.setCityJ(pathList.get(9).getPath());
         shortestPathRepository.save(shortestPathEntity);
 
         shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(0).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(1).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(2).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(3).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(4).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(5).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(6).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(7).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(8).getDistance()));
-        shortestDistanceEntity.setCityA(Integer.parseInt(pathList.get(9).getDistance()));
+        shortestDistanceEntity.setCityB(Integer.parseInt(pathList.get(1).getDistance()));
+        shortestDistanceEntity.setCityC(Integer.parseInt(pathList.get(2).getDistance()));
+        shortestDistanceEntity.setCityD(Integer.parseInt(pathList.get(3).getDistance()));
+        shortestDistanceEntity.setCityE(Integer.parseInt(pathList.get(4).getDistance()));
+        shortestDistanceEntity.setCityF(Integer.parseInt(pathList.get(5).getDistance()));
+        shortestDistanceEntity.setCityG(Integer.parseInt(pathList.get(6).getDistance()));
+        shortestDistanceEntity.setCityH(Integer.parseInt(pathList.get(7).getDistance()));
+        shortestDistanceEntity.setCityI(Integer.parseInt(pathList.get(8).getDistance()));
+        shortestDistanceEntity.setCityJ(Integer.parseInt(pathList.get(9).getDistance()));
         shortestDistanceRepository.save(shortestDistanceEntity);
 
     }
 
-    public void saveMinimumConnectors(String Path){
+    public void saveMinimumConnectors(String Path, Node startPoint){
         int length = Path.length();
         Character[] pathArray = new Character[length];
         for (int i = 0; i < length ; i++) {
@@ -306,16 +307,16 @@ public class ShortestPathServiceImplement implements ShortestPathService {
 
         MinimumConnectorsEntity minimumConnectorsEntity = new MinimumConnectorsEntity();
 
-        minimumConnectorsEntity.setLink1(pathArray[0].toString());
-        minimumConnectorsEntity.setLink1(pathArray[1].toString());
-        minimumConnectorsEntity.setLink1(pathArray[2].toString());
-        minimumConnectorsEntity.setLink1(pathArray[3].toString());
-        minimumConnectorsEntity.setLink1(pathArray[4].toString());
-        minimumConnectorsEntity.setLink1(pathArray[5].toString());
-        minimumConnectorsEntity.setLink1(pathArray[6].toString());
-        minimumConnectorsEntity.setLink1(pathArray[7].toString());
-        minimumConnectorsEntity.setLink1(pathArray[8].toString());
-        minimumConnectorsEntity.setLink1(pathArray[9].toString());
+        minimumConnectorsEntity.setLink1(startPoint.getName());
+        minimumConnectorsEntity.setLink2(pathArray[0].toString());
+        minimumConnectorsEntity.setLink3(pathArray[1].toString());
+        minimumConnectorsEntity.setLink4(pathArray[2].toString());
+        minimumConnectorsEntity.setLink5(pathArray[3].toString());
+        minimumConnectorsEntity.setLink6(pathArray[4].toString());
+        minimumConnectorsEntity.setLink7(pathArray[5].toString());
+        minimumConnectorsEntity.setLink8(pathArray[6].toString());
+        minimumConnectorsEntity.setLink9(pathArray[7].toString());
+        minimumConnectorsEntity.setLink10(pathArray[8].toString());
         minimumConnectorsRepository.save(minimumConnectorsEntity);
 
     }

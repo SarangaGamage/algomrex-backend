@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping(value = "/Algomrex")
 @CrossOrigin(origins = "*")
-public class Login {
+public class UserController {
 
     @Autowired
     LoginService loginService;
@@ -20,5 +20,10 @@ public class Login {
     @PostMapping(value = "/userLogin")
     HttpEntity<Object> userLogin(@RequestBody User user) throws UnsupportedEncodingException {
         return loginService.userLogin(user);
+    }
+
+    @PostMapping(value = "/userRegistration")
+    HttpEntity<Object> userRegistration(@RequestBody User user) throws UnsupportedEncodingException {
+        return loginService.userRegistration(user);
     }
 }

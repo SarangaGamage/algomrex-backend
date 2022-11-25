@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LoginRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("SELECT u FROM UserEntity u WHERE u.username=:username AND u.password=:password")
     UserEntity userLogin(String username, String password);
 
+    @Query("SELECT u FROM UserEntity u WHERE u.username=:username")
+    UserEntity getUsername(String username);
 }
