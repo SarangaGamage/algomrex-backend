@@ -17,7 +17,7 @@ public class Common {
         LocalDateTime now = LocalDateTime.now();
         System.out.println(dtf.format(now));
 
-        WinnerRepository winnerRepository = null;
+       // WinnerRepository winnerRepository = null;
 
         WinnerEntity winnerEntity = new WinnerEntity();
         winnerEntity.setUserId(userId);

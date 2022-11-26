@@ -29,28 +29,39 @@ public class KnapsackServiceImplement implements KnapsackService {
     KnapsackRepository knapsackRepository;
 
     public int calculateMaximumProfit(int[] profits, int[] weights, int capacity) {
-        if (capacity <= 0 || profits.length == 0 || weights.length != profits.length)
+        if (capacity <= 0 || profits.length == 0 || weights.length != profits.length){
             return 0;
+        }
+        // define length of profit and assign it to profitArrayLength
         int profitArrayLength = profits.length;
-        int[][] dynamicProgrammingArray = new int[profitArrayLength][capacity + 1];
 
-        for (int i = 0; i < profitArrayLength; i++)
-            dynamicProgrammingArray[i][0] = 0;
+        // creating the grid
+        int[][] dynamicProgrammingArrayGrid = new int[profitArrayLength][capacity + 1];
 
+        // first column should be 0
+        for (int i = 0; i < profitArrayLength; i++){
+            dynamicProgrammingArrayGrid[i][0] = 0;
+        }
+        // if we have only one weight, we will take it if it is not more than the capacity
         for (int c = 0; c <= capacity; c++) {
             if (weights[0] <= c)
-                dynamicProgrammingArray[0][c] = profits[0];
+                dynamicProgrammingArrayGrid[0][c] = profits[0];
         }
+        // process all sub-arrays for all the capacities
         for (int i = 1; i < profitArrayLength; i++) {
             for (int c = 1; c <= capacity; c++) {
                 int profit1 = 0, profit2 = 0;
+                // include the item, if it is not more than the capacity
                 if (weights[i] <= c)
-                    profit1 = profits[i] + dynamicProgrammingArray[i - 1][c - weights[i]];
-                profit2 = dynamicProgrammingArray[i - 1][c];
-                dynamicProgrammingArray[i][c] = Math.max(profit1, profit2);
+                profit1 = profits[i] + dynamicProgrammingArrayGrid[i - 1][c - weights[i]];
+                // exclude the item
+                profit2 = dynamicProgrammingArrayGrid[i - 1][c];
+                // take maximum
+                dynamicProgrammingArrayGrid[i][c] = Math.max(profit1, profit2);
             }
         }
-        return dynamicProgrammingArray[profitArrayLength - 1][capacity];
+        // return the value of bottom right corner
+        return dynamicProgrammingArrayGrid[profitArrayLength - 1][capacity];
     }
 
     @Override
@@ -64,8 +75,8 @@ public class KnapsackServiceImplement implements KnapsackService {
             knapsackDataTable.add(new KnapsackTable(items[i], "Weight", itemWeightsArray[i]));
             knapsackDataTable.add(new KnapsackTable(items[i], "Profit", itemProfitsArray[i]));
         }
-        int maxProfit = calculateMaximumProfit(itemProfitsArray, itemWeightsArray, 10);
-        System.out.println(maxProfit);
+//        int maxProfit = calculateMaximumProfit(itemProfitsArray, itemWeightsArray, 10);
+//        System.out.println(maxProfit);
         return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, knapsackDataTable, Constant.SUCCESS);
     }
 
@@ -76,12 +87,13 @@ public class KnapsackServiceImplement implements KnapsackService {
         System.out.println(maxProfit);
         AnswerResult answerResult = new AnswerResult();
         if (commonUserAnswer.getKnapsackUserAnswer().getTotalProfit() == maxProfit) {
+            String gameID = Common.generateGameId("Knap");
             answerResult.setStatus(1);
             answerResult.setResult("Great Correct choices!!");
-            winnerRepository.save(Common.saveWinnerUserDetails(userId, "Knap", 0));
+            winnerRepository.save(Common.saveWinnerUserDetails(userId, gameID, 0));
             KnapsackEntity knapsackEntity = new KnapsackEntity();
             knapsackEntity.setUserId(userId);
-            knapsackEntity.setGameId(Common.generateGameId("Knap"));
+            knapsackEntity.setGameId(gameID);
             knapsackEntity.setMaximumProfit(maxProfit);
             knapsackRepository.save(knapsackEntity);
         } else {
