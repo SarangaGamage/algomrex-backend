@@ -35,9 +35,9 @@ public class ShortestPathServiceImplement implements ShortestPathService {
     MinimumConnectorsRepository minimumConnectorsRepository;
     @Override
     public ResponseEntity<Object> checkUserAnswer(CommonUserAnswer commonUserAnswer, int userId) {
-
         try {
             Node startingNode = null;
+            // create list of nodes and push all created nodes to it
             List<Node> nodes = new ArrayList<>();
             Node cityA = new Node("CityA");
             nodes.add(cityA);
@@ -60,29 +60,42 @@ public class ShortestPathServiceImplement implements ShortestPathService {
             Node cityJ = new Node("CityJ");
             nodes.add(cityJ);
 
+            //get table data that created previously and loop
             for (DistanceTable tableData : GlobalVariables.getGlobalVariable(false).createdTable) {
                 Node startNode = null;
                 Node endNode = null;
+                // here we find the relevant node by the string names of the nodes
                 for (Node node : nodes) {
+                    //find and get the start node
                     if (Objects.equals(commonUserAnswer.getQuestionId(), "1") && node.getName().equals(commonUserAnswer.getAnswerList().get(0).getFrom().replaceAll("\\s+", "")) && startNode == null) {
                         startingNode = node;
                     }
+                    // dijkstra graph creating process
+                    //find the starting point node from the table data
+                    // from:"City C"
+                    //to:"City A"
                     if (node.getName().equals(tableData.getHeader().replaceAll("\\s+", ""))) {
                         startNode = node;
                     }
+                    //find the ending point node from the table data
                     if (node.getName().equals(tableData.getRowHeader().replaceAll("\\s+", ""))) {
                         endNode = node;
                     }
                 }
                 if (startNode != null) {
+                   // create 1 path of dijkstra table at 1 time
+                    // use addAdjacentNode method
                     startNode.addAdjacentNode(endNode, tableData.getWeight(), startNode);
                 }
             }
 
+            // find the question id and if question id == 1
             if (Objects.equals(commonUserAnswer.getQuestionId(), "1")) {
+                //creating a object of Dijkstra class
                 Dijkstra dijkstra = new Dijkstra();
                 System.out.println(startingNode);
                 if (startingNode != null) {
+                    //start to calculate shortest path
                     dijkstra.calculateShortestPath(startingNode);
                 }
                 ArrayList<Path> pathList = dijkstra.printPaths(nodes);
@@ -120,11 +133,15 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                 return ResponseHandler.generateResponse(HttpStatus.MULTI_STATUS, checkedResults, Constant.SUCCESS);
 
             } else if (Objects.equals(commonUserAnswer.getQuestionId(), "2")) {
+                // create a object of AnswerResult
                 AnswerResult checkedResults;
+                // define initial total minimum distance
                 int totalDistanceOfMinimumConnectors = 0;
                 Node startPoint = null;
+                // define the path of minimum connectors
                 StringBuilder pathOfMinimumConnectors = new StringBuilder();
                 Stack<Node> settleNodes = new Stack<>();
+                //find the starting node and assign it to startingNode
                 for (Node node : nodes) {
                     if(Objects.equals(node.getName(), commonUserAnswer.getMinimumConnectorsUserAnswer().getStartPoint().replaceAll("\\s+", ""))){
                         settleNodes.push(node);
@@ -132,8 +149,8 @@ public class ShortestPathServiceImplement implements ShortestPathService {
                         break;
                     }
                 }
-
                 for (int i = 0; i < nodes.size() - 1; i++) {
+                    //get the head of the settle node  and get it's joined nodes
                     Map.Entry<Node, Integer> min = settleNodes.peek().getAdjacentNodes()
                             .entrySet().stream().filter(entry -> !settleNodes.contains(entry.getKey()))
                             .min(Map.Entry.comparingByValue(Integer::compareTo))
@@ -177,8 +194,10 @@ public class ShortestPathServiceImplement implements ShortestPathService {
 
     @Override
     public ResponseEntity<Object> getTableData() {
+        // here we have created a global varaible to store the data of the distance table to reuse
         GlobalVariables distanceTable = GlobalVariables.getGlobalVariable(true);
         try {
+            //define headers and rowheaders
             String[] headers = new String[]{"City A", "City B", "City C", "City D", "City E", "City F", "City G", "City H", "City I"};
             String[] rowHeaders = new String[]{"City A", "City B", "City C", "City D", "City E", "City F", "City G", "City H", "City I", "City J"};
 
